@@ -1,7 +1,3 @@
-# ============================================================
-# FINAL RESEARCH VERSION
-# Dynamic Gain + Logging + Density + UDP IMU
-# ============================================================
 
 import cv2
 import numpy as np
