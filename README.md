@@ -8,7 +8,6 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-purple.svg)](https://github.com/ultralytics/ultralytics)
 [![ESP32](https://img.shields.io/badge/MCU-ESP32-black.svg)](https://www.espressif.com/en/products/socs/esp32)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Amrita School of Artificial Intelligence | Amrita Vishwa Vidyapeetham**
 
