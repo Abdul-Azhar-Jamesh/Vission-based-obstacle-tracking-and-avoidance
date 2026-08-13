@@ -217,49 +217,6 @@ Say a frame arrives with a greenish, low-contrast, slightly blurred cast — typ
 
 These five numbers get plugged into Eqs. 2–4 and applied to the **full-resolution** frame, producing $I_s$, which is what YOLOv8 actually sees. A clearer frame in a different lighting condition might yield a near-identity prediction ($\omega \approx 0$, $\lambda \approx 0$) since little correction is needed.
 
-### Minimal HPNN + Enhancement Code Sketch
-
-```python
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-class HPNN(nn.Module):
-    """Predicts 5 enhancement scalars: Wr, Wg, Wb, omega, lambda."""
-    def __init__(self):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Conv2d(3, 16, 3, stride=2, padding=1), nn.ReLU(),
-            nn.Conv2d(16, 32, 3, stride=2, padding=1), nn.ReLU(),
-            nn.AdaptiveAvgPool2d(1),
-        )
-        self.head = nn.Linear(32, 5)
-
-    def forward(self, x_downsampled):
-        feat = self.net(x_downsampled).flatten(1)
-        params = self.head(feat)
-        Wr, Wg, Wb = torch.sigmoid(params[:, 0:3]).unbind(dim=1)  # keep weights in [0,1]-ish range
-        omega = torch.sigmoid(params[:, 3])                        # blend ratio in [0, 1]
-        lam = F.softplus(params[:, 4])                             # sharpening >= 0
-        return Wr, Wg, Wb, omega, lam
-
-
-def enhance(I, Wr, Wg, Wb, omega, lam):
-    """Applies Eqs. 2-4 to full-resolution frame I using HPNN-predicted params."""
-    # Step 1: channel-wise color balancing (Eq. 2)
-    Iw = torch.stack([I[:, 0] * Wr, I[:, 1] * Wg, I[:, 2] * Wb], dim=1)
-
-    # Step 2: contrast enhancement, En(.) e.g. histogram-equalize / CLAHE-style op (Eq. 3)
-    En_Iw = histogram_equalize(Iw)  # placeholder for the enhancement operator
-    Ic = omega.view(-1, 1, 1, 1) * En_Iw + (1 - omega.view(-1, 1, 1, 1)) * Iw
-
-    # Step 3: unsharp-mask sharpening (Eq. 4)
-    blurred = gaussian_blur(Ic)
-    Is = Ic + lam.view(-1, 1, 1, 1) * (Ic - blurred)
-    return Is
-```
-
-Detection loss is simply backpropagated through `enhance()` and into `HPNN`, so a single optimizer step updates both the detector and the enhancement network together.
 
 ---
 
