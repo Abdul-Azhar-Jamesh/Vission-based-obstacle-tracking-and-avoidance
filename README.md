@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="amrita.png" alt="Logo" width="400"/>
-</p>
+
 
 # Vision-based Obstacle Tracking and IMU for Robotic Fish Steering Navigation
 
@@ -16,19 +14,6 @@
 
 </div>
 
----
-
-## Authors
-
-| Name |
-|------|
-| Abdul Azhar Jamesh |
-| Deepak Prabhu |
-| Pranesh M |
-| Sandhiya D |
-| Akhil VM |
-
----
 
 ## Table of Contents
 
