@@ -1,0 +1,11 @@
+# Underwater Object Detection Dataset Configuration
+
+# Paths to the dataset
+train: /content/drive/MyDrive/Underwater-object-detection-using-yolov8-main/Underwater-object-detection-using-yolov8-main/train/images
+val: /content/drive/MyDrive/Underwater-object-detection-using-yolov8-main/Underwater-object-detection-using-yolov8-main/valid/images
+test: /content/drive/MyDrive/Underwater-object-detection-using-yolov8-main/Underwater-object-detection-using-yolov8-main/test/images
+# Number of classes
+nc: 7  # number of classes (fish, jellyfish, penguin, puffin, shark, starfish, stingray)
+
+# Class names
+names: ['fish', 'jellyfish', 'penguin', 'puffin', 'shark', 'starfish', 'stingray']
